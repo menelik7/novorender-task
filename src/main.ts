@@ -21,9 +21,12 @@ async function main(canvas: HTMLCanvasElement, searchTerm: string) {
 
 	// Load scene metadata
 	// Condos scene ID, but can be changed to any public scene ID
-	const sceneData = await dataApi.loadScene("95a89d20dd084d9486e383e131242c4c");
+	const SCENE_ID = "95a89d20dd084d9486e383e131242c4c";
+
+	const sceneData = (await dataApi.loadScene(SCENE_ID)) as SceneData;
+
 	// Destructure relevant properties into variables
-	const { url } = sceneData as SceneData;
+	const { url } = sceneData;
 	// load the scene using URL gotten from `sceneData`
 	const imports = await View.downloadImports({ baseUrl: "/novorender/api/" });
 	const view = new View(canvas, deviceProfile, imports);
@@ -42,22 +45,23 @@ async function main(canvas: HTMLCanvasElement, searchTerm: string) {
 				// Example: "Roo" will still find roofs, but "oof" will not
 				const iterator = db.search({ searchPattern: searchTerm }, signal);
 
-				console.log("Iterator", iterator);
-
 				// In this example we just want to isolate the objects so all we need is the object ID
 				const result: number[] = [];
 				for await (const object of iterator) {
 					result.push(object.id);
 				}
 
-				// Then we isolate the objects found
-				const renderStateHighlightGroups: RenderStateHighlightGroups = {
-					defaultAction: "hide",
-					groups: [{ action: createNeutralHighlight(), objectIds: result }],
-				};
+				// If the search returns value
+				if (result.length) {
+					// Then we isolate the objects found
+					const renderStateHighlightGroups: RenderStateHighlightGroups = {
+						defaultAction: "hide",
+						groups: [{ action: createNeutralHighlight(), objectIds: result }],
+					};
 
-				// Finally, modify the renderState
-				view.modifyRenderState({ highlights: renderStateHighlightGroups });
+					// Finally, modify the renderState if the search returns value
+					view.modifyRenderState({ highlights: renderStateHighlightGroups });
+				}
 			}
 		} catch (e) {
 			console.warn(e);

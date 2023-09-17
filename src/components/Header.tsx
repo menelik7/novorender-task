@@ -32,24 +32,27 @@ export default function Header() {
 		switch (target.innerText) {
 			case "Stored view 1":
 				if (event.shiftKey) {
+					// setFirstPosition([x, y, z])
 					console.log("Store first Position");
 					break;
 				}
-				console.log("Display first position.");
+				console.log("Fly to first position.");
 				break;
 			case "Stored view 2":
 				if (event.shiftKey) {
+					// setSecondPosition([x, y, z])
 					console.log("Store second Position");
 					break;
 				}
-				console.log("Display second position.");
+				console.log("Fly to second position.");
 				break;
 			case "Stored view 3":
 				if (event.shiftKey) {
+					// setThirdPosition([x, y, z])
 					console.log("Store third Position");
 					break;
 				}
-				console.log("Display third position.");
+				console.log("Fly to third position.");
 				break;
 			default:
 				break;

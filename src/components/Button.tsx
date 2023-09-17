@@ -1,10 +1,8 @@
 import React, { MouseEvent } from "react";
 import { ButtonClass } from "./ButtonClass";
-import { ColumnWidth } from "./ColumnWidth";
 
 interface ButtonClassProp {
 	buttonClass: ButtonClass;
-	columnWidth?: ColumnWidth;
 	customClassNames?: string;
 	onClick?: (event: MouseEvent) => void;
 	children: React.ReactNode;
@@ -12,14 +10,13 @@ interface ButtonClassProp {
 
 const Button: React.FC<ButtonClassProp> = ({
 	buttonClass,
-	columnWidth,
 	customClassNames,
 	onClick,
 	children,
 }) => {
 	return (
 		<button
-			className={`btn ${buttonClass} ${columnWidth} ${customClassNames}`}
+			className={`btn ${buttonClass} ${customClassNames}`}
 			onClick={onClick}
 		>
 			{children}
