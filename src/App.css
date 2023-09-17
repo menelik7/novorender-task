@@ -1,0 +1,14 @@
+html,
+body {
+	height: 100%;
+	margin: 0;
+	touch-action: none;
+	-ms-touch-action: none;
+	user-select: none;
+}
+
+#root {
+	width: 100%;
+	position: absolute;
+	z-index: 10;
+}
