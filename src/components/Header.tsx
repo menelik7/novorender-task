@@ -2,23 +2,23 @@ import React, { MouseEvent, useState } from "react";
 import Button from "./Button";
 import { ButtonClass } from "./ButtonClass";
 
-interface ButtonLabels {
+interface PositionButton {
 	id: string;
 	label: string;
 }
 
-const buttonLabels: ButtonLabels[] = [
+const positionButtons: PositionButton[] = [
 	{
 		id: "001",
-		label: "Stored view 1",
+		label: "Position 1",
 	},
 	{
 		id: "002",
-		label: "Stored view 2",
+		label: "Position 2",
 	},
 	{
 		id: "003",
-		label: "Stored view 3",
+		label: "Position 3",
 	},
 ];
 
@@ -30,36 +30,48 @@ export default function Header() {
 	const handleClick = (event: MouseEvent) => {
 		const target = event.target as HTMLElement;
 		switch (target.innerText) {
-			case "Stored view 1":
+			case "Position 1":
 				if (event.shiftKey) {
-					// setFirstPosition([x, y, z])
-					console.log("Store first Position");
+					// TODO
+					// Store position and rotation
+					// setFirstPosition(position, rotation)
+					console.log("Store position one");
 					break;
 				}
-				console.log("Fly to first position.");
+				// TODO
+				// Move to stored position
+				console.log("Fly to position one.");
 				break;
-			case "Stored view 2":
+			case "Position 2":
 				if (event.shiftKey) {
-					// setSecondPosition([x, y, z])
-					console.log("Store second Position");
+					// TODO
+					// Store position and rotation
+					// setSecondPosition(position, rotation)
+					console.log("Store position two");
 					break;
 				}
-				console.log("Fly to second position.");
+				// TODO
+				// Move to stored position
+				console.log("Fly to position two.");
 				break;
-			case "Stored view 3":
+			case "Position 3":
 				if (event.shiftKey) {
-					// setThirdPosition([x, y, z])
-					console.log("Store third Position");
+					// TODO
+					// Store position and rotation
+					// setThirdPosition(position, rotation)
+					console.log("Store position three");
 					break;
 				}
-				console.log("Fly to third position.");
+				// TODO
+				// Move to stored position
+				console.log("Fly to position three.");
 				break;
 			default:
 				break;
 		}
 	};
 
-	const renderedButtons = buttonLabels.map(({ id, label }) => {
+	const renderedPositionButtons = positionButtons.map(({ id, label }) => {
 		return (
 			<div key={id} className="col-6 col-sm-4 col-lg-2">
 				<Button
@@ -72,5 +84,5 @@ export default function Header() {
 			</div>
 		);
 	});
-	return <div className="row pt-3 gy-2">{renderedButtons}</div>;
+	return <div className="row pt-3 gy-2">{renderedPositionButtons}</div>;
 }

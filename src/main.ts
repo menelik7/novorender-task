@@ -79,7 +79,7 @@ const Main: FC = () => {
 
 	useEffect(() => {
 		main(canvas, searchTerm);
-	});
+	}, [searchTerm]);
 
 	return null;
 };
