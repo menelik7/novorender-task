@@ -1,4 +1,3 @@
-import { FC, useEffect, useContext } from "react";
 import {
 	GPUTier,
 	RenderStateHighlightGroups,
@@ -7,11 +6,8 @@ import {
 	getDeviceProfile,
 } from "@novorender/api";
 import { createAPI, type SceneData } from "@novorender/data-js-api";
-import { SearchContext, SearchTermContextTypes } from "./context/search";
 
-const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-
-async function main(canvas: HTMLCanvasElement, searchTerm: string) {
+export async function main(canvas: HTMLCanvasElement, searchTerm: string) {
 	const gpuTier: GPUTier = 2;
 	const deviceProfile = getDeviceProfile(gpuTier);
 	// Initialize the data API with the Novorender data server service
@@ -41,7 +37,7 @@ async function main(canvas: HTMLCanvasElement, searchTerm: string) {
 				const signal = controller.signal;
 
 				// Run the searches
-				// Fluffy search which will search all properties for words starting with <searchTerm>"
+				// Fluffy search which will search all properties for words starting with <searchTerm>
 				// Example: "Roo" will still find roofs, but "oof" will not
 				const iterator = db.search({ searchPattern: searchTerm }, signal);
 
@@ -73,15 +69,3 @@ async function main(canvas: HTMLCanvasElement, searchTerm: string) {
 	await view.run();
 	view.dispose();
 }
-
-const Main: FC = () => {
-	const { searchTerm } = useContext(SearchContext) as SearchTermContextTypes;
-
-	useEffect(() => {
-		main(canvas, searchTerm);
-	}, [searchTerm]);
-
-	return null;
-};
-
-export default Main;

@@ -1,5 +1,5 @@
-install dependencies
+Install dependencies  
 `npm install`
 
-run project in dev mode
+Run project in dev mode  
 `npm run dev`

@@ -1,15 +1,24 @@
 import "bootstrap/dist/css/bootstrap.css";
-import React from "react";
-import Main from "./main";
+import React, { FC, useEffect, useContext } from "react";
+import { SearchContext, SearchTermContextTypes } from "./context/search";
+import { main } from "./main";
 import Header from "./components/Header";
 import Form from "./components/Form";
 
-export default function App() {
+const App: FC = () => {
+	const { searchTerm } = useContext(SearchContext) as SearchTermContextTypes;
+
+	useEffect(() => {
+		const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+		main(canvas, searchTerm);
+	}, [searchTerm]);
+
 	return (
 		<div className="container">
-			<Main />
 			<Header />
 			<Form />
 		</div>
 	);
-}
+};
+
+export default App;
