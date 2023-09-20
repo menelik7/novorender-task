@@ -9,7 +9,7 @@ import {
 	SearchTermContextTypes,
 } from "./context";
 import { main } from "./main";
-import Header from "./components/Header";
+import CameraPosition from "./components/CameraPosition";
 import Form from "./components/Form";
 
 const App: FC = () => {
@@ -41,7 +41,7 @@ const App: FC = () => {
 
 	return (
 		<div className="container">
-			<Header />
+			<CameraPosition />
 			<Form />
 		</div>
 	);

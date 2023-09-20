@@ -9,25 +9,22 @@ import {
 	InitialPositionContextType,
 } from "../context";
 
-interface CameraPositionButton {
+interface PositionButton {
 	id: string;
 	label: string;
-	cameraPosition?: CameraPositionArgs;
-	storeCameraPosition: (positionArgs: CameraPositionArgs) => void;
+	cameraPosition?: PositionArgs;
+	storeCameraPosition: (positionArgs: PositionArgs) => void;
 }
 
-interface CameraPositionArgs {
+interface PositionArgs {
 	targetPosition: ReadonlyVec3;
 	rotation?: ReadonlyQuat;
 }
 
-export default function Header() {
-	const [firstCameraPosition, setFirstPosition] =
-		useState<CameraPositionArgs>();
-	const [secondCameraPosition, setSecondPosition] =
-		useState<CameraPositionArgs>();
-	const [thirdCameraPosition, setThirdPosition] =
-		useState<CameraPositionArgs>();
+export default function CameraPosition() {
+	const [firstCameraPosition, setFirstPosition] = useState<PositionArgs>();
+	const [secondCameraPosition, setSecondPosition] = useState<PositionArgs>();
+	const [thirdCameraPosition, setThirdPosition] = useState<PositionArgs>();
 
 	const { flightController } = useContext(
 		FlightControllerContext
@@ -36,7 +33,7 @@ export default function Header() {
 		InitialPositionContext
 	) as InitialPositionContextType;
 
-	const cameraPositionButtons: CameraPositionButton[] = [
+	const cameraPositionButtons: PositionButton[] = [
 		{
 			id: "001",
 			label: "Position 1",
@@ -66,7 +63,7 @@ export default function Header() {
 				if (event.shiftKey) {
 					// Extract position and rotation RenderState??
 					// Create an object with obtained values
-					const currentPosition: CameraPositionArgs = {
+					const currentPosition: PositionArgs = {
 						targetPosition: flightController!.position,
 						rotation: flightController!.rotation,
 					};
