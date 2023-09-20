@@ -3,9 +3,11 @@ import React, { FC, useEffect, useContext } from "react";
 import {
 	FlightControllerContext,
 	FlightControllerContextTypes,
+	InitialPositionContext,
+	InitialPositionContextType,
 	SearchContext,
 	SearchTermContextTypes,
-} from "./context/search";
+} from "./context";
 import { main } from "./main";
 import Header from "./components/Header";
 import Form from "./components/Form";
@@ -15,11 +17,18 @@ const App: FC = () => {
 	const { updateFlightController } = useContext(
 		FlightControllerContext
 	) as FlightControllerContextTypes;
+	const { updateInitialPosition } = useContext(
+		InitialPositionContext
+	) as InitialPositionContextType;
 
 	useEffect(() => {
 		const start = async () => {
 			const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 			const { view, flightController } = await main(canvas, searchTerm);
+			updateInitialPosition({
+				targetPosition: flightController.position,
+				rotation: flightController.rotation,
+			});
 
 			updateFlightController(flightController);
 

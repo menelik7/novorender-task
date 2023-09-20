@@ -1,7 +1,7 @@
 import { initView } from "./initView";
 import { initSearch } from "./initSearch";
 
-export async function main(canvas: HTMLCanvasElement, searchTerm: string) {
+export async function main(canvas: HTMLCanvasElement, searchTerm?: string) {
 	const { view, sceneData } = await initView(canvas);
 
 	if (searchTerm) {

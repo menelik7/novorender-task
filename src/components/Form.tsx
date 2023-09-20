@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { SearchContext, SearchTermContextTypes } from "../context/search";
+import { SearchContext, SearchTermContextTypes } from "../context";
 import Button from "./Button";
 import { ButtonClass } from "./ButtonClass";
 
