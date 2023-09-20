@@ -1,5 +1,5 @@
-import { initView } from "./initView";
-import { initSearch } from "./initSearch";
+import { initView } from "./api/initView";
+import { initSearch } from "./api/initSearch";
 
 export async function main(canvas: HTMLCanvasElement, searchTerm?: string) {
 	const { view, sceneData } = await initView(canvas);
