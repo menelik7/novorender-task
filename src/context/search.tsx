@@ -1,3 +1,4 @@
+import { FlightController } from "@novorender/api";
 import React, { createContext, useState } from "react";
 
 interface ProviderProps {
@@ -9,10 +10,19 @@ export type SearchTermContextTypes = {
 	updateSearchTerm: (updatedSearchTerm: string) => void;
 };
 
+export type FlightControllerContextTypes = {
+	flightController?: FlightController;
+	updateFlightController: (flightController: FlightController) => void;
+};
+
 export const SearchContext = createContext<SearchTermContextTypes | null>(null);
 
-export const SearchProvider: React.FC<ProviderProps> = ({ children }) => {
+export const FlightControllerContext =
+	createContext<FlightControllerContextTypes | null>(null);
+
+export const Provider: React.FC<ProviderProps> = ({ children }) => {
 	const [searchTerm, setSearchTerm] = useState<string>("");
+	const [flightController, setFlightController] = useState<FlightController>();
 
 	const searchContextToShare = {
 		searchTerm,
@@ -21,11 +31,20 @@ export const SearchProvider: React.FC<ProviderProps> = ({ children }) => {
 		},
 	};
 
+	const flightControllerContextToShare = {
+		flightController,
+		updateFlightController: (updatedFlightController: FlightController) => {
+			setFlightController(updatedFlightController);
+		},
+	};
+
 	return (
 		<SearchContext.Provider value={searchContextToShare}>
-			{children}
+			<FlightControllerContext.Provider value={flightControllerContextToShare}>
+				{children}
+			</FlightControllerContext.Provider>
 		</SearchContext.Provider>
 	);
 };
 
-export default SearchProvider;
+export default Provider;

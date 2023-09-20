@@ -1,73 +1,82 @@
-import React, { MouseEvent, useState } from "react";
+import React, { MouseEvent, useContext, useState } from "react";
 import Button from "./Button";
 import { ButtonClass } from "./ButtonClass";
 import { ReadonlyVec3, ReadonlyQuat } from "gl-matrix";
-import { FlightController } from "@novorender/api";
+import {
+	FlightControllerContext,
+	FlightControllerContextTypes,
+} from "../context/search";
 
 interface PositionButton {
 	id: string;
 	label: string;
+	currentPosition?: PositionArgs;
 	storePosition: (positionArgs: PositionArgs) => void;
-	// moveToPosition: (positionArgs: PositionArgs) => void;
 }
 
 interface PositionArgs {
-	position?: ReadonlyVec3;
+	targetPosition: ReadonlyVec3;
 	rotation?: ReadonlyQuat;
 }
 
 export default function Header() {
-	const [firstPosition, setFirstPosition] = useState<PositionArgs>({});
-	const [secondPosition, setSecondPosition] = useState<PositionArgs>({});
-	const [thirdPosition, setThirdPosition] = useState<PositionArgs>({});
+	const [firstPosition, setFirstPosition] = useState<PositionArgs>();
+	const [secondPosition, setSecondPosition] = useState<PositionArgs>();
+	const [thirdPosition, setThirdPosition] = useState<PositionArgs>();
+
+	const { flightController } = useContext(
+		FlightControllerContext
+	) as FlightControllerContextTypes;
 
 	const positionButtons: PositionButton[] = [
 		{
 			id: "001",
 			label: "Position 1",
+			currentPosition: firstPosition,
 			storePosition: setFirstPosition,
-			// TODO
-			// moveToPosition:
 		},
 		{
 			id: "002",
 			label: "Position 2",
+			currentPosition: secondPosition,
 			storePosition: setSecondPosition,
-			// TODO
-			// moveToPosition:
 		},
 		{
 			id: "003",
 			label: "Position 3",
+			currentPosition: thirdPosition,
 			storePosition: setThirdPosition,
-			// TODO
-			// moveToPosition:
 		},
 	];
 
 	const handleClick = (event: MouseEvent) => {
 		const target = event.target as HTMLElement;
 
-		// Store position values
+		// Store position values or moving to stored position
 		positionButtons.forEach((positionButton, i) => {
 			if (positionButton.label === target.innerText) {
 				if (event.shiftKey) {
-					console.log("Storing", positionButtons[i].label);
-					// TODO
 					// Extract position and rotation RenderState??
 					// Create an object with obtained values
-					// const currentPosition: PositionArgs = {
-					// 	position: [x, y, z],
-					// 	rotation: [a, b, c, d]
-					// }
-					//  positionButtons[i].storePosition(position)
+					const currentPosition: PositionArgs = {
+						targetPosition: flightController!.position,
+						rotation: flightController!.rotation,
+					};
+					positionButtons[i].storePosition(currentPosition);
 
 					return;
 				}
 
-				console.log("Moving to", positionButtons[i].label);
+				if (positionButtons[i].currentPosition) {
+					const { targetPosition, rotation } =
+						positionButtons[i].currentPosition!;
+					flightController?.moveTo(targetPosition, 1000, rotation);
+
+					return;
+				}
+
 				// TODO
-				// Move to stored position camera moveTo()
+				// Display a modal that a position has not been stored yet
 			}
 		});
 	};
