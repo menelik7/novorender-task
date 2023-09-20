@@ -58,8 +58,8 @@ export default function CameraPosition() {
 		const target = event.target as HTMLElement;
 
 		// Store position values or move to stored position
-		cameraPositionButtons.forEach((cameraPositionButton, i) => {
-			if (cameraPositionButton.label === target.innerText) {
+		cameraPositionButtons.forEach(({ label }, i) => {
+			if (label === target.innerText) {
 				if (event.shiftKey) {
 					// Extract position and rotation RenderState??
 					// Create an object with obtained values
