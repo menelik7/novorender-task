@@ -108,7 +108,7 @@ export default function CameraPosition() {
 						targetPosition: flightController!.position,
 						rotation: flightController!.rotation,
 					};
-					if (i < 3)
+					if (label !== "Starting Position")
 						cameraPositionButtons[i].storeCameraPosition!(currentPosition);
 
 					return;
