@@ -30,6 +30,7 @@ const App: FC = () => {
 			updateSceneData(sceneData);
 			view.switchCameraController("flight");
 			view.run();
+			view.dispose();
 		};
 
 		start();
