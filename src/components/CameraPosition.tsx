@@ -132,7 +132,12 @@ export default function CameraPosition() {
 	const renderedCameraPositionButtons = cameraPositionButtons.map(
 		({ id, label, className }) => {
 			return (
-				<div key={id} className="col-6 col-sm-4 col-lg-2">
+				<div
+					key={id}
+					className={`col-6 col-sm-4 ${
+						id === "004" ? "col-lg-3 col-xl-2" : "col-lg-2"
+					}`}
+				>
 					<Button
 						onClick={handleClick}
 						buttonClass={className}
