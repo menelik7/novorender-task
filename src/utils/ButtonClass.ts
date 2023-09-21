@@ -3,4 +3,5 @@ export enum ButtonClass {
 	secondary = "btn-secondary",
 	warning = "btn-warning",
 	success = "btn-success",
+	danger = "btn-danger",
 }

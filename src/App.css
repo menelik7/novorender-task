@@ -13,3 +13,35 @@ body {
 	position: absolute;
 	top: 0;
 }
+
+.modal-wrapper {
+	inset: 0;
+}
+
+.modal-content {
+	inset: 35%;
+}
+
+@media (max-width: 1024px) {
+	.modal-content {
+		inset: 30%;
+	}
+}
+
+@media (max-width: 914px) {
+	.modal-content {
+		inset: 25%;
+	}
+}
+
+@media (max-width: 667px) {
+	.modal-content {
+		inset: 20%;
+	}
+}
+
+@media (max-width: 667px) {
+	.modal-content {
+		inset: 15%;
+	}
+}

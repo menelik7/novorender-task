@@ -1,4 +1,5 @@
 import {
+	RenderStateGroupAction,
 	RenderStateHighlightGroups,
 	View,
 	createNeutralHighlight,
@@ -11,6 +12,7 @@ export async function initSearch(
 	searchTerm: string
 ) {
 	let loading = false;
+	let defaultAction: RenderStateGroupAction | undefined = "hide";
 	let abortController = new AbortController();
 
 	// Abort currently running search if a new one is initiated
@@ -36,17 +38,14 @@ export async function initSearch(
 				result.push(object.id);
 			}
 
-			// If the search returns value
+			// If the search returns no value
 			if (!result.length) {
-				// TODO
-				// Revert to original view when search returns no value
-				console.log("No result!");
-				return;
+				defaultAction = undefined;
 			}
 
 			// Then we isolate the objects found
 			const renderStateHighlightGroups: RenderStateHighlightGroups = {
-				defaultAction: "hide",
+				defaultAction,
 				groups: [{ action: createNeutralHighlight(), objectIds: result }],
 			};
 

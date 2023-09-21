@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import Button from "./Button";
-import { ButtonClass } from "./ButtonClass";
+import Button from "../components/common/Button";
+import { ButtonClass } from "../utils/ButtonClass";
 import {
 	SceneDataContext,
 	SceneDataContextType,
@@ -32,6 +32,7 @@ const Form: React.FC = () => {
 						value={text}
 						onChange={(e) => setText(e.target.value)}
 						autoComplete="searchText"
+						required
 					/>
 				</div>
 			</div>
