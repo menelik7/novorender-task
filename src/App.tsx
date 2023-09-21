@@ -1,48 +1,49 @@
 import "bootstrap/dist/css/bootstrap.css";
-import React, { FC, useEffect, useContext } from "react";
-import {
-	FlightControllerContext,
-	FlightControllerContextTypes,
-	InitialPositionContext,
-	InitialPositionContextType,
-	SearchContext,
-	SearchTermContextTypes,
-} from "./context";
-import { main } from "./main";
+import React, { FC, useEffect, useContext, useRef } from "react";
+
 import CameraPosition from "./components/CameraPosition";
 import Form from "./components/Form";
+import { initView } from "./api/initView";
+import {
+	SceneDataContext,
+	SceneDataContextType,
+	ViewContext,
+	ViewContextType,
+} from "./context";
 
 const App: FC = () => {
-	const { searchTerm } = useContext(SearchContext) as SearchTermContextTypes;
-	const { updateFlightController } = useContext(
-		FlightControllerContext
-	) as FlightControllerContextTypes;
-	const { updateInitialPosition } = useContext(
-		InitialPositionContext
-	) as InitialPositionContextType;
+	const { updateView } = useContext(ViewContext) as ViewContextType;
+	const { updateSceneData } = useContext(
+		SceneDataContext
+	) as SceneDataContextType;
+	const canvasRef = useRef(null);
+
+	const canvasDefaultStyle = {
+		width: "100%",
+		height: "100%",
+	};
 
 	useEffect(() => {
 		const start = async () => {
-			const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-			const { view, flightController } = await main(canvas, searchTerm);
-			updateInitialPosition({
-				targetPosition: flightController.position,
-				rotation: flightController.rotation,
-			});
-
-			updateFlightController(flightController);
-
-			await view.run();
-			view.dispose();
+			const { view, sceneData } = await initView(canvasRef.current!);
+			updateView(view);
+			updateSceneData(sceneData);
+			view.switchCameraController("flight");
+			view.run();
 		};
 
 		start();
-	}, [searchTerm]);
+	}, []);
 
 	return (
-		<div className="container">
-			<CameraPosition />
-			<Form />
+		<div className="main-container">
+			<canvas ref={canvasRef} id="canvas" style={canvasDefaultStyle}></canvas>
+			<div className="overlay-content">
+				<div className="container">
+					<CameraPosition />
+					<Form />
+				</div>
+			</div>
 		</div>
 	);
 };

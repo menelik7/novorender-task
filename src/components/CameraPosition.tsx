@@ -1,13 +1,9 @@
-import React, { MouseEvent, useContext, useState } from "react";
+import React, { MouseEvent, useContext, useEffect, useState } from "react";
 import Button from "./Button";
 import { ButtonClass } from "./ButtonClass";
 import { ReadonlyVec3, ReadonlyQuat } from "gl-matrix";
-import {
-	FlightControllerContext,
-	FlightControllerContextTypes,
-	InitialPositionContext,
-	InitialPositionContextType,
-} from "../context";
+import { ViewContext, ViewContextType } from "../context";
+import { FlightController } from "@novorender/api";
 
 interface PositionButton {
 	id: string;
@@ -22,16 +18,21 @@ interface PositionArgs {
 }
 
 export default function CameraPosition() {
+	const [flightController, setFlightController] = useState<FlightController>();
+	const [initialPosition, setInitialPosition] = useState<PositionArgs>();
 	const [firstCameraPosition, setFirstPosition] = useState<PositionArgs>();
 	const [secondCameraPosition, setSecondPosition] = useState<PositionArgs>();
 	const [thirdCameraPosition, setThirdPosition] = useState<PositionArgs>();
 
-	const { flightController } = useContext(
-		FlightControllerContext
-	) as FlightControllerContextTypes;
-	const { initialPosition } = useContext(
-		InitialPositionContext
-	) as InitialPositionContextType;
+	const { view } = useContext(ViewContext) as ViewContextType;
+
+	useEffect(() => {
+		if (view) setFlightController(view.controllers.flight);
+		if (flightController) {
+			const { position, rotation } = flightController;
+			setInitialPosition({ targetPosition: position, rotation });
+		}
+	}, [view, flightController]);
 
 	const cameraPositionButtons: PositionButton[] = [
 		{
@@ -54,7 +55,7 @@ export default function CameraPosition() {
 		},
 	];
 
-	const handleClick = (event: MouseEvent) => {
+	const handleClick = async (event: MouseEvent) => {
 		const target = event.target as HTMLElement;
 
 		// Store position values or move to stored position

@@ -1,70 +1,48 @@
-import { FlightController } from "@novorender/api";
+import { View } from "@novorender/api";
+import { SceneData } from "@novorender/data-js-api";
 import React, { createContext, useState } from "react";
-import { ReadonlyVec3, ReadonlyQuat } from "gl-matrix";
 
 interface ProviderProps {
 	children: React.ReactNode;
 }
 
-export type SearchTermContextTypes = {
-	searchTerm?: string;
-	updateSearchTerm: (updatedSearchTerm: string) => void;
+export type ViewContextType = {
+	view?: View;
+	updateView: (view: View) => void;
 };
 
-export type FlightControllerContextTypes = {
-	flightController?: FlightController;
-	updateFlightController: (updatedFlightController: FlightController) => void;
+export type SceneDataContextType = {
+	sceneData?: SceneData;
+	updateSceneData: (sceneData: SceneData) => void;
 };
 
-export type Position = {
-	targetPosition: ReadonlyVec3;
-	rotation?: ReadonlyQuat;
-};
-export type InitialPositionContextType = {
-	initialPosition?: Position;
-	updateInitialPosition: (updatedPosition: Position) => void;
-};
+export const ViewContext = createContext<ViewContextType | null>(null);
 
-export const SearchContext = createContext<SearchTermContextTypes | null>(null);
-export const FlightControllerContext =
-	createContext<FlightControllerContextTypes | null>(null);
-export const InitialPositionContext =
-	createContext<InitialPositionContextType | null>(null);
+export const SceneDataContext = createContext<SceneDataContextType | null>(
+	null
+);
 
 export const Provider: React.FC<ProviderProps> = ({ children }) => {
-	const [searchTerm, setSearchTerm] = useState<string>();
-	const [flightController, setFlightController] = useState<FlightController>();
-	const [initialPosition, setInitialPosition] = useState<Position>();
+	const [view, setView] = useState<View>();
+	const [sceneData, setSceneData] = useState<SceneData>();
 
-	const searchContextToShare = {
-		searchTerm,
-		updateSearchTerm: (updatedSearchTerm: string) => {
-			setSearchTerm(updatedSearchTerm);
-		},
+	const viewContextToShare = {
+		view,
+		updateView: (updatedView: View) => setView(updatedView),
 	};
 
-	const flightControllerContextToShare = {
-		flightController,
-		updateFlightController: (updatedFlightController: FlightController) => {
-			setFlightController(updatedFlightController);
-		},
-	};
-
-	const initialPositionContextToShare = {
-		initialPosition,
-		updateInitialPosition: (updatedInitialPosition: Position) => {
-			setInitialPosition(updatedInitialPosition);
-		},
+	const sceneDataContextToShare = {
+		sceneData,
+		updateSceneData: (updatedSceneData: SceneData) =>
+			setSceneData(updatedSceneData),
 	};
 
 	return (
-		<SearchContext.Provider value={searchContextToShare}>
-			<FlightControllerContext.Provider value={flightControllerContextToShare}>
-				<InitialPositionContext.Provider value={initialPositionContextToShare}>
-					{children}
-				</InitialPositionContext.Provider>
-			</FlightControllerContext.Provider>
-		</SearchContext.Provider>
+		<ViewContext.Provider value={viewContextToShare}>
+			<SceneDataContext.Provider value={sceneDataContextToShare}>
+				{children}
+			</SceneDataContext.Provider>
+		</ViewContext.Provider>
 	);
 };
 

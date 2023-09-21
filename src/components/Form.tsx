@@ -1,18 +1,22 @@
 import React, { useState, useContext } from "react";
-import { SearchContext, SearchTermContextTypes } from "../context";
 import Button from "./Button";
 import { ButtonClass } from "./ButtonClass";
+import {
+	SceneDataContext,
+	SceneDataContextType,
+	ViewContext,
+	ViewContextType,
+} from "../context";
+import { initSearch } from "../api/initSearch";
 
 const Form: React.FC = () => {
 	const [text, setText] = useState<string>("");
-	const { updateSearchTerm } = useContext(
-		SearchContext
-	) as SearchTermContextTypes;
+	const { view } = useContext(ViewContext) as ViewContextType;
+	const { sceneData } = useContext(SceneDataContext) as SceneDataContextType;
 
 	const handleSubmit = (event: any) => {
 		event.preventDefault();
-
-		if (text) updateSearchTerm(text);
+		if (text && view && sceneData) initSearch(sceneData, view, text);
 		setText("");
 	};
 

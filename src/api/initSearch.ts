@@ -10,16 +10,25 @@ export async function initSearch(
 	view: View,
 	searchTerm: string
 ) {
+	let loading = false;
+	let abortController = new AbortController();
+
+	// Abort currently running search if a new one is initiated
+	if (loading) {
+		abortController.abort();
+		abortController = new AbortController();
+	}
+
+	const abortSignal = abortController.signal;
+	loading = true;
+
 	try {
 		const { db } = sceneData as SceneData;
 		if (db) {
-			const controller = new AbortController();
-			const signal = controller.signal;
-
 			// Run the searches
 			// Fluffy search which will search all properties for words starting with <searchTerm>
 			// Example: "Roo" will still find roofs, but "oof" will not
-			const iterator = db.search({ searchPattern: searchTerm }, signal);
+			const iterator = db.search({ searchPattern: searchTerm }, abortSignal);
 
 			// In this example we just want to isolate the objects so all we need is the object ID
 			const result: number[] = [];
@@ -28,16 +37,23 @@ export async function initSearch(
 			}
 
 			// If the search returns value
-			if (result.length) {
-				// Then we isolate the objects found
-				const renderStateHighlightGroups: RenderStateHighlightGroups = {
-					defaultAction: "hide",
-					groups: [{ action: createNeutralHighlight(), objectIds: result }],
-				};
-
-				// Finally, modify the renderState if the search returns value
-				view.modifyRenderState({ highlights: renderStateHighlightGroups });
+			if (!result.length) {
+				// TODO
+				// Revert to original view when search returns no value
+				console.log("No result!");
+				return;
 			}
+
+			// Then we isolate the objects found
+			const renderStateHighlightGroups: RenderStateHighlightGroups = {
+				defaultAction: "hide",
+				groups: [{ action: createNeutralHighlight(), objectIds: result }],
+			};
+
+			// Finally, modify the renderState if the search returns value
+			view.modifyRenderState({ highlights: renderStateHighlightGroups });
+
+			loading = false;
 		}
 	} catch (e) {
 		console.warn(e);
