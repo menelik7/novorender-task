@@ -123,7 +123,7 @@ export default function CameraPosition() {
 					return;
 				}
 
-				// If no position has been stored, jump back to the initial position
+				// If no position has been stored, display a modal with guidance
 				openModal();
 			}
 		});
