@@ -16,7 +16,11 @@ const Form: React.FC = () => {
 
 	const handleSubmit = (event: any) => {
 		event.preventDefault();
-		if (text && view && sceneData) initSearch(sceneData, view, text);
+
+		if (text && view && sceneData) {
+			initSearch(sceneData, view, text);
+		}
+
 		setText("");
 	};
 

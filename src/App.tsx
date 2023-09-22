@@ -16,7 +16,7 @@ const App: FC = () => {
 	const { updateSceneData } = useContext(
 		SceneDataContext
 	) as SceneDataContextType;
-	const canvasRef = useRef(null);
+	const canvasRef = useRef<HTMLCanvasElement>(null);
 
 	const canvasDefaultStyle = {
 		width: "100%",

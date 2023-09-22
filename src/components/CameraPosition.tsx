@@ -30,7 +30,10 @@ export default function CameraPosition() {
 	const { view } = useContext(ViewContext) as ViewContextType;
 
 	useEffect(() => {
-		if (view) setFlightController(view.controllers.flight);
+		if (view) {
+			setFlightController(view.controllers.flight);
+		}
+
 		if (flightController) {
 			const { position, rotation } = flightController;
 			setInitialPosition({ targetPosition: position, rotation });
@@ -108,8 +111,9 @@ export default function CameraPosition() {
 						targetPosition: flightController!.position,
 						rotation: flightController!.rotation,
 					};
-					if (label !== "Starting Position")
+					if (label !== "Starting Position") {
 						cameraPositionButtons[i].storeCameraPosition!(currentPosition);
+					}
 
 					return;
 				}
