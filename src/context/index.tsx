@@ -1,6 +1,6 @@
 import { View } from "@novorender/api";
 import { SceneData } from "@novorender/data-js-api";
-import React, { createContext, useState } from "react";
+import React, { FC, createContext, useState } from "react";
 
 interface ProviderProps {
 	children: React.ReactNode;
@@ -22,7 +22,7 @@ export const SceneDataContext = createContext<SceneDataContextType | null>(
 	null
 );
 
-const Provider: React.FC<ProviderProps> = ({ children }) => {
+const Provider: FC<ProviderProps> = ({ children }) => {
 	const [view, setView] = useState<View>();
 	const [sceneData, setSceneData] = useState<SceneData>();
 

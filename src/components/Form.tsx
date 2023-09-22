@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, FC } from "react";
 import Button from "../components/common/Button";
 import { ButtonClass } from "../utils/ButtonClass";
 import {
@@ -9,7 +9,7 @@ import {
 } from "../context";
 import { initSearch } from "../api/initSearch";
 
-const Form: React.FC = () => {
+const Form: FC = () => {
 	const [text, setText] = useState<string>("");
 	const { view } = useContext(ViewContext) as ViewContextType;
 	const { sceneData } = useContext(SceneDataContext) as SceneDataContextType;
