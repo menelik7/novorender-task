@@ -1,4 +1,4 @@
-import React, { MouseEvent, useContext, useEffect, useState } from "react";
+import React, { FC, MouseEvent, useContext, useEffect, useState } from "react";
 import Button from "./common/Button";
 import { ButtonClass } from "../utils/ButtonClass";
 import { ReadonlyVec3, ReadonlyQuat } from "gl-matrix";
@@ -19,7 +19,7 @@ interface PositionArgs {
 	rotation?: ReadonlyQuat;
 }
 
-export default function CameraPosition() {
+const CameraPosition: FC = () => {
 	const [showModal, setShowModal] = useState(false);
 	const [flightController, setFlightController] = useState<FlightController>();
 	const [initialPosition, setInitialPosition] = useState<PositionArgs>();
@@ -158,4 +158,6 @@ export default function CameraPosition() {
 			{renderedCameraPositionButtons} {showModal && modal}
 		</div>
 	);
-}
+};
+
+export default CameraPosition;

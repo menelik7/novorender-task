@@ -22,7 +22,7 @@ export const SceneDataContext = createContext<SceneDataContextType | null>(
 	null
 );
 
-export const Provider: React.FC<ProviderProps> = ({ children }) => {
+const Provider: React.FC<ProviderProps> = ({ children }) => {
 	const [view, setView] = useState<View>();
 	const [sceneData, setSceneData] = useState<SceneData>();
 

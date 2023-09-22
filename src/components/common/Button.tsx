@@ -1,4 +1,4 @@
-import React, { MouseEvent, ReactNode } from "react";
+import React, { FC, MouseEvent, ReactNode } from "react";
 import { ButtonClass } from "../../utils/ButtonClass";
 
 interface ButtonClassProp {
@@ -8,7 +8,7 @@ interface ButtonClassProp {
 	children: ReactNode;
 }
 
-const Button: React.FC<ButtonClassProp> = ({
+const Button: FC<ButtonClassProp> = ({
 	buttonClass,
 	customClassNames,
 	onClick,
