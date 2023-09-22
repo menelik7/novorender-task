@@ -16,7 +16,7 @@ const App: FC = () => {
 	const { updateSceneData } = useContext(
 		SceneDataContext
 	) as SceneDataContextType;
-	const canvasRef = useRef<HTMLCanvasElement>(null);
+	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
 	const canvasDefaultStyle = {
 		width: "100%",
@@ -25,7 +25,12 @@ const App: FC = () => {
 
 	useEffect(() => {
 		const start = async () => {
-			const { view, sceneData } = await initView(canvasRef.current!);
+			if (!canvasRef.current) {
+				return;
+			}
+
+			const { view, sceneData } = await initView(canvasRef.current);
+
 			updateView(view);
 			updateSceneData(sceneData);
 			view.switchCameraController("flight");

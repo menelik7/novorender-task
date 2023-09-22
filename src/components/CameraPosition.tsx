@@ -103,13 +103,13 @@ const CameraPosition: FC = () => {
 
 		// Store position values or move to stored position
 		cameraPositionButtons.forEach(({ label }, i) => {
-			if (label === target.innerText) {
+			if (label === target.innerText && flightController) {
 				if (event.shiftKey) {
 					// Extract position and rotation RenderState??
 					// Create an object with obtained values
 					const currentPosition: PositionArgs = {
-						targetPosition: flightController!.position,
-						rotation: flightController!.rotation,
+						targetPosition: flightController.position,
+						rotation: flightController.rotation,
 					};
 					if (label !== "Starting Position") {
 						cameraPositionButtons[i].storeCameraPosition!(currentPosition);
@@ -122,7 +122,7 @@ const CameraPosition: FC = () => {
 				// Ascertain cameraPosition is defined and move to position
 				if (cameraPosition) {
 					const { targetPosition, rotation } = cameraPosition;
-					flightController?.moveTo(targetPosition, 1000, rotation);
+					flightController.moveTo(targetPosition, 1000, rotation);
 
 					return;
 				}
