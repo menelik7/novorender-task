@@ -10,9 +10,7 @@ export async function initView(canvas: HTMLCanvasElement) {
 	});
 
 	// Load scene metadata
-	// Condos scene ID, but can be changed to any public scene ID
 	const SCENE_ID = "95a89d20dd084d9486e383e131242c4c";
-
 	const sceneData = (await dataApi.loadScene(SCENE_ID)) as SceneData;
 
 	// Destructure relevant properties into variables

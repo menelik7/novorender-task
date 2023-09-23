@@ -27,12 +27,9 @@ export async function initSearch(
 	try {
 		const { db } = sceneData as SceneData;
 		if (db) {
-			// Run the searches
-			// Fluffy search which will search all properties for words starting with <searchTerm>
-			// Example: "Roo" will still find roofs, but "oof" will not
 			const iterator = db.search({ searchPattern: searchTerm }, abortSignal);
 
-			// In this example we just want to isolate the objects so all we need is the object ID
+			// Isolate the objects using the object ID
 			const result: number[] = [];
 			for await (const object of iterator) {
 				result.push(object.id);
@@ -43,7 +40,7 @@ export async function initSearch(
 				defaultAction = undefined;
 			}
 
-			// Then we isolate the objects found
+			// Isolate the objects found
 			const renderStateHighlightGroups: RenderStateHighlightGroups = {
 				defaultAction,
 				groups: [{ action: createNeutralHighlight(), objectIds: result }],

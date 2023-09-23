@@ -18,11 +18,11 @@ interface PositionArgs {
 	rotation?: ReadonlyQuat;
 }
 
-interface CameraPositionProps {
+interface CameraPositionProp {
 	flightController: FlightController | null;
 }
 
-const CameraPosition: FC<CameraPositionProps> = ({ flightController }) => {
+const CameraPosition: FC<CameraPositionProp> = ({ flightController }) => {
 	const [showModal, setShowModal] = useState(false);
 	const [initialPosition, setInitialPosition] = useState<PositionArgs>();
 	const [firstCameraPosition, setFirstPosition] = useState<PositionArgs>();
@@ -101,7 +101,7 @@ const CameraPosition: FC<CameraPositionProps> = ({ flightController }) => {
 		cameraPositionButtons.forEach(({ label }, i) => {
 			if (label === target.innerText && flightController) {
 				if (event.shiftKey) {
-					// Extract position and rotation RenderState??
+					// Extract position and rotation from flightController
 					// Create an object with obtained values
 					const currentPosition: PositionArgs = {
 						targetPosition: flightController.position,

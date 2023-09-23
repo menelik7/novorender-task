@@ -28,7 +28,6 @@ const App: FC = () => {
 			setSceneData(sceneData);
 			setFlightController(flightController);
 
-			view.switchCameraController("flight");
 			view.run();
 		};
 
