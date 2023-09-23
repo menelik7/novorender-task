@@ -1,8 +1,7 @@
-import React, { FC, MouseEvent, useContext, useEffect, useState } from "react";
+import React, { FC, MouseEvent, useEffect, useState } from "react";
 import Button from "./common/Button";
 import { ButtonClass } from "../utils/ButtonClass";
 import { ReadonlyVec3, ReadonlyQuat } from "gl-matrix";
-import { ViewContext, ViewContextType } from "../context";
 import { FlightController } from "@novorender/api";
 import { Modal } from "./common/Modal";
 
@@ -19,26 +18,23 @@ interface PositionArgs {
 	rotation?: ReadonlyQuat;
 }
 
-const CameraPosition: FC = () => {
+interface CameraPositionProps {
+	flightController: FlightController | null;
+}
+
+const CameraPosition: FC<CameraPositionProps> = ({ flightController }) => {
 	const [showModal, setShowModal] = useState(false);
-	const [flightController, setFlightController] = useState<FlightController>();
 	const [initialPosition, setInitialPosition] = useState<PositionArgs>();
 	const [firstCameraPosition, setFirstPosition] = useState<PositionArgs>();
 	const [secondCameraPosition, setSecondPosition] = useState<PositionArgs>();
 	const [thirdCameraPosition, setThirdPosition] = useState<PositionArgs>();
 
-	const { view } = useContext(ViewContext) as ViewContextType;
-
 	useEffect(() => {
-		if (view) {
-			setFlightController(view.controllers.flight);
-		}
-
 		if (flightController) {
 			const { position, rotation } = flightController;
 			setInitialPosition({ targetPosition: position, rotation });
 		}
-	}, [view, flightController]);
+	}, [flightController]);
 
 	const buttonClass = ButtonClass.secondary;
 

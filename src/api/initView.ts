@@ -23,6 +23,7 @@ export async function initView(canvas: HTMLCanvasElement) {
 	const config = await view.loadSceneFromURL(new URL(url));
 	const { center, radius } = config.boundingSphere;
 	view.activeController.autoFit(center, radius);
+	const flightController = await view.switchCameraController("flight");
 
-	return { view, sceneData };
+	return { view, sceneData, flightController };
 }

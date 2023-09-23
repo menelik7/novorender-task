@@ -1,18 +1,17 @@
-import React, { useState, useContext, FC } from "react";
+import React, { useState, FC } from "react";
 import Button from "../components/common/Button";
 import { ButtonClass } from "../utils/ButtonClass";
-import {
-	SceneDataContext,
-	SceneDataContextType,
-	ViewContext,
-	ViewContextType,
-} from "../context";
 import { initSearch } from "../api/initSearch";
+import { View } from "@novorender/api";
+import { SceneData } from "@novorender/data-js-api";
 
-const Form: FC = () => {
+interface SearchFormProps {
+	view: View | null;
+	sceneData: SceneData | null;
+}
+
+const Form: FC<SearchFormProps> = ({ view, sceneData }) => {
 	const [text, setText] = useState<string>("");
-	const { view } = useContext(ViewContext) as ViewContextType;
-	const { sceneData } = useContext(SceneDataContext) as SceneDataContextType;
 
 	const handleSubmit = (event: any) => {
 		event.preventDefault();

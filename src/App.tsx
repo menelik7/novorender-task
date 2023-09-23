@@ -1,27 +1,18 @@
 import "bootstrap/dist/css/bootstrap.css";
-import React, { FC, useEffect, useContext, useRef } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 
 import CameraPosition from "./components/CameraPosition";
 import Form from "./components/Form";
 import { initView } from "./api/initView";
-import {
-	SceneDataContext,
-	SceneDataContextType,
-	ViewContext,
-	ViewContextType,
-} from "./context";
+import { FlightController, View } from "@novorender/api";
+import { SceneData } from "@novorender/data-js-api";
 
 const App: FC = () => {
-	const { updateView } = useContext(ViewContext) as ViewContextType;
-	const { updateSceneData } = useContext(
-		SceneDataContext
-	) as SceneDataContextType;
+	const [view, setView] = useState<View | null>(null);
+	const [sceneData, setSceneData] = useState<SceneData | null>(null);
+	const [flightController, setFlightController] =
+		useState<FlightController | null>(null);
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-	const canvasDefaultStyle = {
-		width: "100%",
-		height: "100%",
-	};
 
 	useEffect(() => {
 		const start = async () => {
@@ -29,10 +20,14 @@ const App: FC = () => {
 				return;
 			}
 
-			const { view, sceneData } = await initView(canvasRef.current);
+			const { view, sceneData, flightController } = await initView(
+				canvasRef.current
+			);
 
-			updateView(view);
-			updateSceneData(sceneData);
+			setView(view);
+			setSceneData(sceneData);
+			setFlightController(flightController);
+
 			view.switchCameraController("flight");
 			view.run();
 		};
@@ -40,13 +35,18 @@ const App: FC = () => {
 		start();
 	}, []);
 
+	const canvasDefaultStyle = {
+		width: "100%",
+		height: "100%",
+	};
+
 	return (
 		<div className="main-container">
 			<canvas ref={canvasRef} id="canvas" style={canvasDefaultStyle}></canvas>
 			<div className="overlay-content">
 				<div className="container">
-					<CameraPosition />
-					<Form />
+					<CameraPosition flightController={flightController} />
+					<Form view={view} sceneData={sceneData} />
 				</div>
 			</div>
 		</div>
