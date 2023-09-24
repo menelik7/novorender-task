@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import React, { FC, useEffect, useRef, useState } from "react";
 
 import CameraPosition from "./components/CameraPosition";
-import Form from "./components/Form";
+import SearchForm from "./components/SearchForm";
 import { initView } from "./api/initView";
 import { FlightController, View } from "@novorender/api";
 import { SceneData } from "@novorender/data-js-api";
@@ -45,7 +45,7 @@ const App: FC = () => {
 			<div className="overlay-content">
 				<div className="container">
 					<CameraPosition flightController={flightController} />
-					<Form view={view} sceneData={sceneData} />
+					<SearchForm view={view} sceneData={sceneData} />
 				</div>
 			</div>
 		</div>

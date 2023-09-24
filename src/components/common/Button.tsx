@@ -1,14 +1,14 @@
 import React, { FC, MouseEvent, ReactNode } from "react";
 import { ButtonClass } from "../../utils/ButtonClass";
 
-interface ButtonClassProps {
+interface ButtonProps {
 	buttonClass: ButtonClass;
 	customClassNames?: string;
 	onClick?: (event: MouseEvent) => void;
 	children: ReactNode;
 }
 
-const Button: FC<ButtonClassProps> = ({
+const Button: FC<ButtonProps> = ({
 	buttonClass,
 	customClassNames,
 	onClick,

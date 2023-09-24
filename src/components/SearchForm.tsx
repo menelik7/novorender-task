@@ -1,5 +1,5 @@
 import React, { useState, FC, FormEvent } from "react";
-import Button from "../components/common/Button";
+import Button from "./common/Button";
 import { ButtonClass } from "../utils/ButtonClass";
 import { initSearch } from "../api/initSearch";
 import { View } from "@novorender/api";
@@ -10,7 +10,7 @@ interface SearchFormProps {
 	sceneData: SceneData | null;
 }
 
-const Form: FC<SearchFormProps> = ({ view, sceneData }) => {
+const SearchForm: FC<SearchFormProps> = ({ view, sceneData }) => {
 	const [text, setText] = useState<string>("");
 
 	const handleSubmit = (event: FormEvent) => {
@@ -46,4 +46,4 @@ const Form: FC<SearchFormProps> = ({ view, sceneData }) => {
 	);
 };
 
-export default Form;
+export default SearchForm;
