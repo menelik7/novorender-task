@@ -98,18 +98,16 @@ const CameraPosition: FC<CameraPositionProp> = ({ flightController }) => {
 		const target = event.target as HTMLElement;
 
 		// Store position values or move to stored position
-		cameraPositionButtons.forEach(({ label }, i) => {
+		cameraPositionButtons.forEach(({ label, id }, i) => {
 			if (label === target.innerText && flightController) {
-				if (event.shiftKey) {
+				if (event.shiftKey && id !== "004") {
 					// Extract position and rotation from flightController
 					// Create an object with obtained values
 					const currentPosition: PositionArgs = {
 						targetPosition: flightController.position,
 						rotation: flightController.rotation,
 					};
-					if (label !== "Starting Position") {
-						cameraPositionButtons[i].storeCameraPosition!(currentPosition);
-					}
+					cameraPositionButtons[i].storeCameraPosition!(currentPosition);
 
 					return;
 				}
@@ -123,7 +121,7 @@ const CameraPosition: FC<CameraPositionProp> = ({ flightController }) => {
 					return;
 				}
 
-				// If no position has been stored, display a modal with guidance
+				// If no position has been stored, display a modal for guidance
 				openModal();
 			}
 		});

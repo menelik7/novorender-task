@@ -48,9 +48,9 @@ export async function initSearch(
 
 			// Finally, modify the renderState if the search returns value
 			view.modifyRenderState({ highlights: renderStateHighlightGroups });
-
-			loading = false;
 		}
+
+		loading = false;
 	} catch (e) {
 		console.warn(e);
 	}

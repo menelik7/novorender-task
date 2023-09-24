@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState, FC, FormEvent } from "react";
 import Button from "../components/common/Button";
 import { ButtonClass } from "../utils/ButtonClass";
 import { initSearch } from "../api/initSearch";
@@ -13,7 +13,7 @@ interface SearchFormProps {
 const Form: FC<SearchFormProps> = ({ view, sceneData }) => {
 	const [text, setText] = useState<string>("");
 
-	const handleSubmit = (event: any) => {
+	const handleSubmit = (event: FormEvent) => {
 		event.preventDefault();
 
 		if (text && view && sceneData) {
