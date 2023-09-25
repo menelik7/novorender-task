@@ -1,22 +1,12 @@
 import React, { FC, MouseEvent, useEffect, useState } from "react";
-import Button from "./common/Button";
-import { ButtonClass } from "../utils/ButtonClass";
-import { ReadonlyVec3, ReadonlyQuat } from "gl-matrix";
+import Button from "../common/Button";
+import { ButtonClass } from "../../utils/ButtonClass";
 import { FlightController } from "@novorender/api";
-import { Modal } from "./common/Modal";
-
-interface PositionButton {
-	id: string;
-	label: string;
-	className: ButtonClass;
-	cameraPosition?: PositionArgs;
-	storeCameraPosition?: (positionArgs: PositionArgs) => void;
-}
-
-interface PositionArgs {
-	targetPosition: ReadonlyVec3;
-	rotation?: ReadonlyQuat;
-}
+import { Modal } from "../common/Modal";
+import {
+	PositionArgs,
+	getCameraPositionButtonItems,
+} from "./cameraPositionButtonItems";
 
 interface CameraPositionProp {
 	flightController: FlightController | null;
@@ -24,10 +14,8 @@ interface CameraPositionProp {
 
 const CameraPosition: FC<CameraPositionProp> = ({ flightController }) => {
 	const [showModal, setShowModal] = useState(false);
-	const [initialPosition, setInitialPosition] = useState<PositionArgs>();
-	const [firstCameraPosition, setFirstPosition] = useState<PositionArgs>();
-	const [secondCameraPosition, setSecondPosition] = useState<PositionArgs>();
-	const [thirdCameraPosition, setThirdPosition] = useState<PositionArgs>();
+	const { cameraPositionButtons, setInitialPosition } =
+		getCameraPositionButtonItems();
 
 	useEffect(() => {
 		if (flightController) {
@@ -35,8 +23,6 @@ const CameraPosition: FC<CameraPositionProp> = ({ flightController }) => {
 			setInitialPosition({ targetPosition: position, rotation });
 		}
 	}, [flightController]);
-
-	const buttonClass = ButtonClass.secondary;
 
 	const closeModal = () => {
 		setShowModal(false);
@@ -64,49 +50,19 @@ const CameraPosition: FC<CameraPositionProp> = ({ flightController }) => {
 		</Modal>
 	);
 
-	const cameraPositionButtons: PositionButton[] = [
-		{
-			id: "001",
-			label: "Position 1",
-			className: buttonClass,
-			cameraPosition: firstCameraPosition,
-			storeCameraPosition: setFirstPosition,
-		},
-		{
-			id: "002",
-			label: "Position 2",
-			className: buttonClass,
-			cameraPosition: secondCameraPosition,
-			storeCameraPosition: setSecondPosition,
-		},
-		{
-			id: "003",
-			label: "Position 3",
-			className: buttonClass,
-			cameraPosition: thirdCameraPosition,
-			storeCameraPosition: setThirdPosition,
-		},
-		{
-			id: "004",
-			label: "Starting Position",
-			className: ButtonClass.warning,
-			cameraPosition: initialPosition,
-		},
-	];
-
 	const handleClick = async (event: MouseEvent) => {
 		const target = event.target as HTMLElement;
 
-		// Store position values or move to stored position
 		cameraPositionButtons.forEach(({ label, id }, i) => {
 			if (label === target.innerText && flightController) {
 				if (event.shiftKey && id !== "004") {
-					// Extract position and rotation from flightController
-					// Create an object with obtained values
+					// Create an object and assign the position and rotation
+					// values destructured from flightController
 					const currentPosition: PositionArgs = {
 						targetPosition: flightController.position,
 						rotation: flightController.rotation,
 					};
+					// Store values on the relevant position button
 					cameraPositionButtons[i].storeCameraPosition!(currentPosition);
 
 					return;

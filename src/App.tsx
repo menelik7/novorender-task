@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.css";
 import React, { FC, useEffect, useRef, useState } from "react";
 
-import CameraPosition from "./components/CameraPosition";
+import CameraPosition from "./components/camera-position/CameraPosition";
 import SearchForm from "./components/SearchForm";
 import { initView } from "./api/initView";
 import { FlightController, View } from "@novorender/api";
